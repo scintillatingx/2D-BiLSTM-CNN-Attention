@@ -111,7 +111,7 @@ def CNN_BiLSTM():
     attention_mul = Multiply()([embds, attention_probs])
     attention = Dense(128)(attention_mul)
     outputs = Dense(5,activation='softmax')(embds)
-    embds = Dropout(0.2)(embds)
+    embds = Dropout(0.5)(embds)
     model = Model(inputs=inputs, outputs=outputs)
     adam =tf.keras.optimizers.Adam(0.001)
     model.compile(loss='categorical_crossentropy', optimizer = adam, metrics=['accuracy'])
