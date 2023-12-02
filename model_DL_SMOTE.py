@@ -336,25 +336,18 @@ def BiGRU_SMOTE():
     TIME_STEPS = 2
     INPUT_SIZE = 23
     model = Sequential()
-    model.add(Bidirectional(GRU(units=32, batch_input_shape=(None,TIME_STEPS, INPUT_SIZE),     
+    model.add(Bidirectional(GRU(units=128, batch_input_shape=(None,TIME_STEPS, INPUT_SIZE),     
         return_sequences=True,),merge_mode='concat'))
-    #model.add(Dropout(0.2))
-# # add output layer
+    model.add(Dense(1024))
+    model.add(Activation('relu')) 
     model.add(Flatten())
     model.add(Dense(64))
-    model.add(Activation('tanh')) 
-    #model.add(Dropout(0.2))
-    model.add(Flatten())
-    model.add(Dense(128))
     model.add(Activation('relu'))
-    model.add(Flatten())
-    model.add(Dense(32))
-    model.add(Activation('relu'))
-    model.add(Dropout(0.3))
     model.add(Dense(5))
     model.add(Activation('softmax')) 
-    adam =tf.keras.optimizers.Adam(0.005)
-    model.compile(optimizer = adam,loss='binary_crossentropy',metrics=['accuracy']) #使用rmsprop或者adam，而不是sgd
+    model.add(Dropout(0.5))
+    adam =tf.keras.optimizers.Adam(0.001)
+    model.compile(optimizer = adam,loss='binary_crossentropy',metrics=['accuracy']) 
 
     file = pd.read_csv('C:/Users/chengxin/Desktop/train46.csv')
     dataset = np.array(file.loc[:,:])
